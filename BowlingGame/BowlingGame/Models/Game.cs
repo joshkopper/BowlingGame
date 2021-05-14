@@ -24,18 +24,38 @@ namespace BowlingGame.Models
             int frameIndex = 0;
             for (int frame = 0; frame < 10; frame++)
             {
-                if (IsSpare(frameIndex)) // spare
+                if (IsStrike(frameIndex)) // strike
                 {
-                    CurrentScore += 10 + Rolls[frameIndex + 2];
+                    CurrentScore += 10 +
+                            StrikeBonus(frameIndex);
+                    frameIndex++;
+                }
+                else if (IsSpare(frameIndex)) // spare
+                {
+                    CurrentScore += 10 + SpareBonus(frameIndex);
                     frameIndex += 2;
                 }
                 else
                 {
-                    CurrentScore += Rolls[frameIndex] + Rolls[frameIndex + 1];
+                    CurrentScore += SumOfBallsInFrame(frameIndex);
                     frameIndex += 2;
                 }
             }
             return CurrentScore;
+        }
+        private int SumOfBallsInFrame(int frameIndex)
+        {
+            return Rolls[frameIndex] + Rolls[frameIndex + 1];
+        }
+
+        private int SpareBonus(int frameIndex)
+        {
+            return Rolls[frameIndex + 2];
+        }
+
+        private int StrikeBonus(int frameIndex)
+        {
+            return Rolls[frameIndex + 1] + Rolls[frameIndex + 2];
         }
 
         private bool IsSpare(int frameIndex)
@@ -43,7 +63,10 @@ namespace BowlingGame.Models
             return Rolls[frameIndex] +
                    Rolls[frameIndex + 1] == 10;
         }
-
+        private bool IsStrike(int frameIndex)
+        {
+            return Rolls[frameIndex] == 10;
+        }
 
     }
 }

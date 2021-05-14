@@ -25,6 +25,11 @@ namespace BowlingGameTest
             g.Roll(5);
         }
 
+        private void RollStrike()
+        {
+            g.Roll(10);
+        }
+
         [TestMethod]
         public void TestGutterGame()
         {
@@ -49,6 +54,17 @@ namespace BowlingGameTest
             g.Roll(3);
             RollMany(17, 0);
             Assert.AreEqual(16, g.Score());
+        }
+
+        [TestMethod]
+        public void TestOneStrike()
+        {
+            Setup();
+            RollStrike(); // strike
+            g.Roll(3);
+            g.Roll(4);
+            RollMany(16, 0);
+            Assert.AreEqual(24, g.Score());
         }
 
     }

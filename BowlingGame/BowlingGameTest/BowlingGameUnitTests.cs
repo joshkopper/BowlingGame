@@ -7,7 +7,7 @@ namespace BowlingGameTest
     [TestClass]
     public class BowlingGameUnitTests
     {
-        private Game g;       
+        private Game g;
         protected void Setup()
         {
             g = new Game();
@@ -19,6 +19,11 @@ namespace BowlingGameTest
                 g.Roll(pins);
         }
 
+        private void RollSpare()
+        {
+            g.Roll(5);
+            g.Roll(5);
+        }
 
         [TestMethod]
         public void TestGutterGame()
@@ -31,10 +36,20 @@ namespace BowlingGameTest
         [TestMethod]
         public void TestAllOnes()
         {
-            Setup();            
+            Setup();
             for (int i = 0; i < 20; i++)
                 g.Roll(1);
             Assert.AreEqual(20, g.Score());
         }
+        [TestMethod]
+        public void TestOneSpare()
+        {
+            Setup();
+            RollSpare();
+            g.Roll(3);
+            RollMany(17, 0);
+            Assert.AreEqual(16, g.Score());
+        }
+
     }
 }
